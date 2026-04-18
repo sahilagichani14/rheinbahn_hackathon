@@ -33,21 +33,6 @@ def on_startup() -> None:
     seed_all()
 
 
-@app.get("/", response_class=HTMLResponse)
-def index(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
-    departments = db.scalars(
-        select(models.PoliceDepartment).order_by(models.PoliceDepartment.postal_code_start.asc())
-    ).all()
-    return templates.TemplateResponse(
-        request=request,
-        name="index.html",
-        context={
-            "departments": departments,
-            "sample_incidents": SAMPLE_TEST_INCIDENTS,
-        },
-    )
-
-
 @app.post("/analyze", response_model=schemas.AnalyzeResponse)
 def analyze_incident(
     payload: schemas.IncidentAnalyzeRequest,
@@ -142,3 +127,35 @@ async def speech_to_text(file: UploadFile):
     temp_path = save_temp_file(file)
     text = transcribe_audio(temp_path)
     return {"text": text}
+
+@app.get("/", response_class=HTMLResponse)
+def index(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
+    departments = db.scalars(
+        select(models.PoliceDepartment).order_by(models.PoliceDepartment.postal_code_start.asc())
+    ).all()
+    events = db.scalars(select(models.Event).order_by(models.Event.timestamp.desc())).all()
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html",
+        context={
+            "departments": departments,
+            "sample_incidents": SAMPLE_TEST_INCIDENTS,
+            "events": events
+        },
+    )
+
+@app.get("/event/{event_id}", response_class=HTMLResponse)
+def incident_details(event_id: int, request: Request, db: Session = Depends(get_db)):
+    event = db.get(models.Event, event_id)
+
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+
+    return templates.TemplateResponse(
+        request=request,
+        name="event_details.html",
+        context={
+            "request": request,
+            "event": event,
+        },
+    )

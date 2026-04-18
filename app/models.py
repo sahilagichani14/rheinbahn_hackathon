@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from sqlalchemy import DateTime, ForeignKey, Integer, String, Text
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
@@ -54,3 +54,17 @@ class Incident(Base):
 
     police_department: Mapped[PoliceDepartment | None] = relationship(back_populates="incidents")
 
+class Event(Base):
+    __tablename__ = "events"
+    id = Column(Integer, primary_key=True, index=True)
+    event_no = Column("event_number", String, nullable=False)
+    vehicle_no = Column("vehicle_number", String, nullable=False)
+    timestamp = Column("created_at", DateTime, default=lambda: datetime.now(timezone.utc))
+
+    @property
+    def status(self) -> str:
+        return "Open"
+
+    @property
+    def description(self) -> str:
+        return "No description available."

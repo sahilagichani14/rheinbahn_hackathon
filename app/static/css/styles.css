@@ -1,4 +1,4 @@
-:root {
+/* :root {
     --bg: #f7efe5;
     --bg-soft: #fffaf4;
     --card: rgba(255, 255, 255, 0.86);
@@ -203,5 +203,154 @@ thead {
         align-items: flex-start;
         flex-direction: column;
     }
+} */
+
+/* NEW CODE */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    color: #333;
 }
 
+/* NAVBAR */
+.navbar {
+    background: #d40000;
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 40px;
+    margin-right: 15px;
+}
+
+.nav-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* MAIN CONTAINER */
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.section-title {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+/* INCIDENT CARD */
+.incident-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-left: 6px solid #d40000;
+}
+
+.incident-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.incident-id {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.incident-status {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: white;
+}
+
+/* STATUS COLORS */
+.status-active {
+    background: #d40000;
+}
+
+.status-delayed {
+    background: #ff9800;
+}
+
+.status-resolved {
+    background: #4caf50;
+}
+
+.incident-body p {
+    margin: 6px 0;
+}
+
+.no-events {
+    text-align: center;
+    color: #777;
+    margin-top: 40px;
+}
+
+.events-table-wrap {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+}
+
+.events-table thead th {
+    background: #f7f7f7;
+    font-weight: 700;
+    color: #222;
+    border-bottom: 2px solid #dddddd;
+    white-space: nowrap;
+}
+
+.events-table td,
+.events-table th {
+    padding: 14px 12px;
+    vertical-align: middle;
+}
+
+.event-row {
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.event-row:focus {
+    outline: 2px solid #d40000;
+    outline-offset: -2px;
+}
+
+.event-row:hover {
+    background: #fff5f5;
+}
+
+.status-badge {
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.status-open,
+.status-active {
+    background: #d40000;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .events-table-wrap {
+        overflow-x: auto;
+    }
+}
